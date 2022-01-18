@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, ProgressBar } from 'react-bootstrap';
 import { currencyFormatter } from '../utils';
 
 export default function BudgetCard({ name, amount, max }) {
@@ -14,6 +14,20 @@ export default function BudgetCard({ name, amount, max }) {
 					</span>
 				</div>
 			</Card.Title>
+			<ProgressBar
+				className='rounded-pill'
+				variant={progressBarVariant(amount, max)}
+				min={0}
+				max={max}
+				now={amount}
+			/>
 		</Card.Body>
 	);
+}
+
+function progressBarVariant(amount, max) {
+	const ratio = amount / max;
+	if (ratio < 0.5) return 'primary';
+	if (ratio < 0.75) return 'warning';
+	return 'danger';
 }
